@@ -1,0 +1,27 @@
+[
+  {
+    "name": "example",
+    "items": [
+      {
+        "material": "STONE",
+        "weight": 0.4
+      },
+      {
+        "material": "COAL_ORE",
+        "weight": 0.2
+      },
+      {
+        "material": "IRON_ORE",
+        "weight": 0.2
+      },
+      {
+        "material": "GOLD_ORE",
+        "weight": 0.1
+      },
+      {
+        "material": "LAPIS_ORE",
+        "weight": 0.1
+      }
+    ]
+  }
+]

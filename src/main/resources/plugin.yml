@@ -1,0 +1,17 @@
+name: RandomFill
+version: 0.1.0
+author: Ingannatore
+website: https://github.com/Ingannatore
+main: me.ingannatore.randomfill.Main
+api-version: 1.16
+commands:
+  randomfill:
+    description: Randomly fills an area using the specified materials preset
+    usage: /<command> <from> <to> <preset>
+    aliases:
+      - rfill
+    permission: ingannatore.randomFill
+permissions:
+  ingannatore.randomFill:
+    description: Allows randomfill command
+    default: op
