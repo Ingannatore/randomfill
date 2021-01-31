@@ -1,10 +1,10 @@
-package me.ingannatore.randomfill.presets;
+package me.ingannatore.randomfill.filler;
 
-public class PresetItem {
+public class PresetMaterial {
     private final String material;
     private final double weight;
 
-    public PresetItem(String material, double weight) {
+    public PresetMaterial(String material, double weight) {
         this.material = material;
         this.weight = weight;
     }

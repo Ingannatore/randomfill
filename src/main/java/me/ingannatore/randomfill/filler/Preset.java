@@ -1,4 +1,4 @@
-package me.ingannatore.randomfill.presets;
+package me.ingannatore.randomfill.filler;
 
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
 import org.apache.commons.math3.util.Pair;
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Preset {
     private final String name;
-    private final List<PresetItem> items;
+    private final List<PresetMaterial> items;
     private EnumeratedDistribution<String> materials;
 
-    public Preset(String name, List<PresetItem> items) {
+    public Preset(String name, List<PresetMaterial> items) {
         this.name = name;
         this.items = items;
     }
@@ -23,7 +23,7 @@ public class Preset {
     public String selectRandomMaterial() {
         if (materials == null) {
             List<Pair<String, Double>> pairs = new ArrayList<>();
-            for (PresetItem item : items) {
+            for (PresetMaterial item : items) {
                 pairs.add(new Pair<>(item.getMaterial(), item.getWeight()));
             }
 

@@ -1,53 +1,31 @@
 package me.ingannatore.randomfill;
 
-import me.ingannatore.randomfill.config.RandomFillArguments;
-import me.ingannatore.randomfill.config.RandomFillAutocomplete;
-import me.ingannatore.randomfill.presets.Preset;
+import me.ingannatore.randomfill.filler.RandomFiller;
+import me.ingannatore.randomfill.filler.RandomFillerOptions;
 import me.ingannatore.randomfill.utils.LocationService;
-import me.ingannatore.randomfill.utils.WorldService;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandRandomFill implements CommandExecutor, TabCompleter {
-    private final Map<String, Preset> presets;
+    private final RandomFiller randomFiller;
 
-    public CommandRandomFill(List<Preset> presets) {
-        this.presets = new HashMap<>();
-        for (Preset item : presets) {
-            this.presets.put(item.getName(), item);
-        }
+    public CommandRandomFill(RandomFiller randomFiller) {
+        this.randomFiller = randomFiller;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length != 7) {
-            return false;
-        }
-
-        Location baseLocation = LocationService.Get(sender);
-        if (baseLocation == null) {
-            return false;
-        }
-
-        World world = baseLocation.getWorld();
-        if (world == null) {
-            return false;
-        }
-
-        RandomFillArguments arguments = new RandomFillArguments(baseLocation, args);
-        Preset selectedPreset = presets.get(arguments.getPresetName());
-        for (int y : arguments.getYValues()) {
-            for (int z : arguments.getZValues()) {
-                for (int x : arguments.getXValues()) {
-                    WorldService.replaceAirBlock(world, new Location(world, x, y, z), selectedPreset.selectRandomMaterial());
-                }
-            }
+        try {
+            randomFiller.Fill(RandomFillerOptions.create(LocationService.getFromSender(sender), args));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return true;
@@ -55,6 +33,20 @@ public class CommandRandomFill implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        return RandomFillAutocomplete.Create(args, presets);
+        switch (args.length) {
+            case 1:
+            case 4:
+                return Arrays.asList("~", "~ ~", "~ ~ ~");
+            case 2:
+            case 5:
+                return Arrays.asList("~", "~ ~");
+            case 3:
+            case 6:
+                return Collections.singletonList("~");
+            case 7:
+                return randomFiller.getPresetLibrary().getPresetNames();
+        }
+
+        return new ArrayList<>();
     }
 }
