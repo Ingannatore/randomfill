@@ -56,6 +56,31 @@ Each preset must have a unique name, with a list of weighted materials:
         ]
     }
 
+Each item is defined by:
+
+* `material`: Bukkit/Spigot material's ID
+* `weight`: distribution percentage in decimal form (ie, 0.5 for 50%)
+
+To create "holes" inside the filled area, set one `material` to `null`: 
+
+    {
+        "name": "mypreset",
+        "items": [
+            {
+                "material": null,
+                "weight": 0.2
+            },
+            {
+                "material": "STONE",
+                "weight": 0.6
+            },
+            {
+                "material": "DIAMOND_ORE",
+                "weight": 0.2
+            }
+        ]
+    }
+
 ## Release notes
 
 This plugin is still in a beta phase, so do expect errors, crashes and the likes.

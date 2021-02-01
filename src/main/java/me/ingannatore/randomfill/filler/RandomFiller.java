@@ -35,7 +35,8 @@ public class RandomFiller {
         for (int y : yValues) {
             for (int z : zValues) {
                 for (int x : xValues) {
-                    replaceAirBlock(world, new Location(world, x, y, z), preset.selectRandomMaterial());
+                    Material material = getMaterial(preset.selectRandomMaterial());
+                    replaceAirBlock(world, new Location(world, x, y, z), material);
                 }
             }
         }
@@ -45,13 +46,24 @@ public class RandomFiller {
         return presetLibrary;
     }
 
-    private void replaceAirBlock(World world, Location location, String materialName) {
-        if (world.getBlockAt(location).getType() != Material.AIR) {
-            return;
+    private Material getMaterial(String materialName) throws Exception {
+        if (materialName == null) {
+            return null;
         }
 
         Material material = Material.matchMaterial(materialName);
-        if (material == null || !material.isSolid()) {
+        if (material == null) {
+            throw new Exception(String.format("Material '%s' not found", materialName));
+        }
+        if (!material.isSolid()) {
+            throw new Exception(String.format("Material '%s' is not a solid block", materialName));
+        }
+
+        return material;
+    }
+
+    private void replaceAirBlock(World world, Location location, Material material) {
+        if (material == null || world.getBlockAt(location).getType() != Material.AIR) {
             return;
         }
 

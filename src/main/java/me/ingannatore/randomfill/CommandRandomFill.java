@@ -8,16 +8,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CommandRandomFill implements CommandExecutor, TabCompleter {
     private final RandomFiller randomFiller;
+    private final Logger logger;
 
-    public CommandRandomFill(RandomFiller randomFiller) {
+    public CommandRandomFill(RandomFiller randomFiller, Logger logger) {
         this.randomFiller = randomFiller;
+        this.logger = logger;
     }
 
     @Override
@@ -25,7 +27,9 @@ public class CommandRandomFill implements CommandExecutor, TabCompleter {
         try {
             randomFiller.Fill(RandomFillerOptions.create(LocationService.getFromSender(sender), args));
         } catch (Exception e) {
-            e.printStackTrace();
+            sender.sendMessage(e.getMessage());
+            logger.warning(e.getMessage());
+            return false;
         }
 
         return true;
@@ -47,6 +51,6 @@ public class CommandRandomFill implements CommandExecutor, TabCompleter {
                 return randomFiller.getPresetLibrary().getPresetNames();
         }
 
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }

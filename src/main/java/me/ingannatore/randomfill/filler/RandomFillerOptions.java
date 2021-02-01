@@ -4,6 +4,7 @@ import me.ingannatore.randomfill.utils.LocationService;
 import org.bukkit.Location;
 
 public class RandomFillerOptions {
+    private static final int numberOfArguments = 7;
     private final Location from;
     private final Location to;
     private final String presetName;
@@ -13,11 +14,11 @@ public class RandomFillerOptions {
     }
 
     public RandomFillerOptions(Location location, String[] args) throws Exception {
-        if (args.length != 7) {
-            throw new Exception(String.format("Missing arguments: only %d/7 found", args.length));
-        }
         if (location == null) {
-            throw new Exception("Missing base location");
+            throw new Exception("Base location not specified");
+        }
+        if (args.length != numberOfArguments) {
+            throw new Exception(String.format("Incorrect number of arguments: %d of %d", args.length, numberOfArguments));
         }
 
         from = LocationService.update(location, args[0], args[1], args[2]);

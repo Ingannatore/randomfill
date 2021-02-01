@@ -17,20 +17,24 @@ public class LocationService {
         return null;
     }
 
-    public static Location update(Location base, String x, String y, String z) {
+    public static Location update(Location location, String x, String y, String z) throws Exception {
         return new Location(
-                base.getWorld(),
-                updateCoordinate(base.getX(), x),
-                updateCoordinate(base.getY(), y),
-                updateCoordinate(base.getZ(), z)
+                location.getWorld(),
+                updateCoordinates(location.getX(), x),
+                updateCoordinates(location.getY(), y),
+                updateCoordinates(location.getZ(), z)
         );
     }
 
-    public static double updateCoordinate(double value, String modifier) {
-        if (modifier.startsWith("~")) {
-            return value + (modifier.length() == 1 ? 0 : Double.parseDouble(modifier.substring(1)));
-        }
+    public static double updateCoordinates(double value, String modifier) throws Exception {
+        try {
+            if (modifier.startsWith("~")) {
+                return value + (modifier.length() == 1 ? 0 : Double.parseDouble(modifier.substring(1)));
+            }
 
-        return Double.parseDouble(modifier);
+            return Double.parseDouble(modifier);
+        } catch (NumberFormatException ex) {
+            throw new Exception(String.format("Invalid coordinates modifier '%s'", modifier));
+        }
     }
 }

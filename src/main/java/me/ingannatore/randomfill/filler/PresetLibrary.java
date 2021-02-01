@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +14,11 @@ public class PresetLibrary {
     private final Map<String, Preset> presetMap;
     private final List<String> presetNames;
 
-    public static PresetLibrary create(File parent, String filename) {
+    public static PresetLibrary create(File parent, String filename) throws Exception {
         return new PresetLibrary(parent, filename);
     }
 
-    public PresetLibrary(File parent, String filename) {
+    public PresetLibrary(File parent, String filename) throws Exception {
         this.presetMap = new HashMap<>();
         this.presetNames = new ArrayList<>();
 
@@ -42,14 +41,9 @@ public class PresetLibrary {
         return presetMap.getOrDefault(name, null);
     }
 
-    private List<Preset> load(File parent, String filename) {
+    private List<Preset> load(File parent, String filename) throws Exception {
         File presetsFile = new File(parent, filename);
         Gson gson = new Gson();
-
-        try {
-            return gson.fromJson(new FileReader(presetsFile), new TypeToken<List<Preset>>() {}.getType());
-        } catch (FileNotFoundException e) {
-            return new ArrayList<>();
-        }
+        return gson.fromJson(new FileReader(presetsFile), new TypeToken<List<Preset>>() {}.getType());
     }
 }
