@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RandomFillTabCompleter implements TabCompleter {
     private final PresetLibrary presetLibrary;
@@ -33,7 +32,7 @@ public class RandomFillTabCompleter implements TabCompleter {
             case 6:
                 return getCoordinatesHints(commandSender, 2);
             case 7:
-                return getPresetHints(args[6]);
+                return presetLibrary.getNames(args[6]);
         }
 
         return Collections.emptyList();
@@ -68,17 +67,5 @@ public class RandomFillTabCompleter implements TabCompleter {
         }
 
         return targetBlock.getLocation();
-    }
-
-    private List<String> getPresetHints(String argValue) {
-        if (argValue == null || argValue.equals("")) {
-            return presetLibrary.getPresetNames();
-        }
-
-        return presetLibrary
-                .getPresetNames()
-                .stream()
-                .filter(s -> s.startsWith(argValue))
-                .collect(Collectors.toList());
     }
 }

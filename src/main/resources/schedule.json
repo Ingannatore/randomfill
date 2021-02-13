@@ -1,0 +1,19 @@
+[
+  {
+    "name": "testschedule",
+    "world": "world",
+    "from": {
+      "x": 64,
+      "y": 73,
+      "z": 176
+    },
+    "to": {
+      "x": 63,
+      "y": 74,
+      "z": 177
+    },
+    "preset": "example",
+    "when": 18000,
+    "enabled": false
+  }
+]

@@ -1,5 +1,6 @@
 package me.ingannatore.randomfill.filler;
 
+import me.ingannatore.randomfill.utils.MaterialService;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -35,31 +36,11 @@ public class RandomFiller {
         for (int y : yValues) {
             for (int z : zValues) {
                 for (int x : xValues) {
-                    Material material = getMaterial(preset.selectRandomMaterial());
+                    Material material = MaterialService.getSolidMaterial(preset.selectRandomMaterial());
                     replaceAirBlock(world, new Location(world, x, y, z), material);
                 }
             }
         }
-    }
-
-    public PresetLibrary getPresetLibrary() {
-        return presetLibrary;
-    }
-
-    private Material getMaterial(String materialName) throws Exception {
-        if (materialName == null) {
-            return null;
-        }
-
-        Material material = Material.matchMaterial(materialName);
-        if (material == null) {
-            throw new Exception(String.format("Material '%s' not found", materialName));
-        }
-        if (!material.isSolid()) {
-            throw new Exception(String.format("Material '%s' is not a solid block", materialName));
-        }
-
-        return material;
     }
 
     private void replaceAirBlock(World world, Location location, Material material) {

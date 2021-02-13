@@ -1,7 +1,9 @@
 package me.ingannatore.randomfill.filler;
 
+import me.ingannatore.randomfill.scheduler.Schedule;
 import me.ingannatore.randomfill.utils.LocationService;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 public class RandomFillerOptions {
     private static final int numberOfArguments = 7;
@@ -10,10 +12,6 @@ public class RandomFillerOptions {
     private final String presetName;
 
     public static RandomFillerOptions create(Location location, String[] args) throws Exception {
-        return new RandomFillerOptions(location, args);
-    }
-
-    public RandomFillerOptions(Location location, String[] args) throws Exception {
         if (location == null) {
             throw new Exception("Base location not specified");
         }
@@ -21,9 +19,30 @@ public class RandomFillerOptions {
             throw new Exception(String.format("Incorrect number of arguments: %d of %d", args.length, numberOfArguments));
         }
 
-        from = LocationService.update(location, args[0], args[1], args[2]);
-        to = LocationService.update(location, args[3], args[4], args[5]);
-        presetName = args[6];
+        Location from = LocationService.update(location, args[0], args[1], args[2]);
+        Location to = LocationService.update(location, args[3], args[4], args[5]);
+
+        return new RandomFillerOptions(from, to, args[6]);
+    }
+
+    public static RandomFillerOptions create(World world, Schedule schedule) throws Exception {
+        if (world == null) {
+            throw new Exception("World not specified");
+        }
+        if (schedule == null) {
+            throw new Exception("Schedule not specified");
+        }
+
+        Location from = LocationService.create(world, schedule.getFrom());
+        Location to = LocationService.create(world, schedule.getTo());
+
+        return new RandomFillerOptions(from, to, schedule.getPreset());
+    }
+
+    public RandomFillerOptions(Location from, Location to, String presetName) {
+        this.from = from;
+        this.to = to;
+        this.presetName = presetName;
     }
 
     public String getPresetName() {

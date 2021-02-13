@@ -1,6 +1,7 @@
 package me.ingannatore.randomfill.utils;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +18,10 @@ public class LocationService {
         return null;
     }
 
+    public static Location create(World world, Position position) {
+        return new Location(world, position.getX(), position.getY(), position.getZ());
+    }
+
     public static Location update(Location location, String x, String y, String z) throws Exception {
         return new Location(
                 location.getWorld(),
@@ -27,6 +32,10 @@ public class LocationService {
     }
 
     public static double updateCoordinates(double value, String modifier) throws Exception {
+        if (modifier == null || modifier.trim().isEmpty()) {
+            return value;
+        }
+
         try {
             if (modifier.startsWith("~")) {
                 return value + (modifier.length() == 1 ? 0 : Double.parseDouble(modifier.substring(1)));
