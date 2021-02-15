@@ -1,25 +1,25 @@
 package me.ingannatore.randomfill.utils;
 
 public class Position {
-    private final double x;
-    private final double y;
-    private final double z;
+    private final int x;
+    private final int y;
+    private final int z;
 
-    public Position(double x, double y, double z) {
+    public Position(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public double getZ() {
+    public int getZ() {
         return z;
     }
 }

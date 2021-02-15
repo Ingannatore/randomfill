@@ -14,7 +14,7 @@ import java.util.logging.Level;
 
 public class Main extends JavaPlugin {
     private final String presetsFileName = "presets.json";
-    private final String scheduleFileName = "schedule.json";
+    private final String scheduleFileName = "schedules.json";
     private int schedulerTaskId;
 
     @Override
